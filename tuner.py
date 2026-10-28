@@ -4,6 +4,7 @@ Run:  python tuner.py
 """
 import subprocess
 import sys
+import queue
 import threading
 import time
 import tkinter as tk
@@ -73,6 +74,8 @@ class Tuner(tk.Tk):
         self.speaker_ids = []
         self.widgets = {}
         self._theme()
+        self._ui_q = queue.Queue()
+        self.after(50, self._drain_ui)
  
         left = ttk.Frame(self, padding=(22, 18), style="Main.TFrame")
         right = ttk.Frame(self, padding=(18, 18), style="Side.TFrame")
@@ -273,10 +276,22 @@ class Tuner(tk.Tk):
     # ---------- helpers ----------
  
     def set_status(self, text):
-        self.after(0, lambda: self.status.config(text=text))
+        self._ui(lambda: self.status.config(text=text))
  
     def run_bg(self, fn):
         threading.Thread(target=fn, daemon=True).start()
+
+    def _ui(self, fn):
+        # background threads hand UI work to the main thread (Mac needs this)
+        self._ui_q.put(fn)
+
+    def _drain_ui(self):
+        try:
+            while True:
+                self._ui_q.get_nowait()()
+        except queue.Empty:
+            pass
+        self.after(50, self._drain_ui)
  
     def settings(self):
         s = {k: round(v.get(), 3) for k, v in self.vars.items()}
@@ -327,7 +342,7 @@ class Tuner(tk.Tk):
                     after()
                 elif voices:
                     self.on_voice()
-            self.after(0, update)
+            self._ui(update)
         self.run_bg(work)
  
     def on_voice(self, pick=None):
@@ -350,7 +365,7 @@ class Tuner(tk.Tk):
                 idx = self.speaker_ids.index(pick) if pick in self.speaker_ids else 0
                 self.speaker_box.current(idx)
                 self.status.config(text=f"{name}: {len(spk)} speaker(s)")
-            self.after(0, update)
+            self._ui(update)
         self.run_bg(work)
  
     def download_piper(self):
@@ -365,7 +380,7 @@ class Tuner(tk.Tk):
                                capture_output=True, text=True)
             if r.returncode == 0:
                 self.set_status(f"Downloaded {name}")
-                self.after(0, self.on_engine)
+                self._ui(self.on_engine)
             else:
                 self.set_status(f"Download failed: {(r.stderr or r.stdout).strip()[-120:]}")
         self.run_bg(work)
@@ -378,7 +393,7 @@ class Tuner(tk.Tk):
                 self.set_status(f"Download failed: {e}")
                 return
             self.set_status("Kokoro downloaded")
-            self.after(0, self.on_engine)
+            self._ui(self.on_engine)
         self.run_bg(work)
  
     # ---------- audio ----------
