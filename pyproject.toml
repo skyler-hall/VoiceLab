@@ -1,0 +1,9 @@
+[project]
+name = "voicelab"
+version = "0.1.0"
+description = "Curated Piper voice presets for robots"
+requires-python = ">=3.9"
+dependencies = ["piper-tts>=1.3", "kokoro-onnx", "numpy", "sounddevice"]
+
+[tool.setuptools]
+py-modules = ["voicelab"]

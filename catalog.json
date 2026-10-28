@@ -1,0 +1,71 @@
+{
+  "presets": {
+    "The Henchman": {
+      "settings": {
+        "engine": "kokoro",
+        "voice": "bm_lewis",
+        "blend_voice": "",
+        "blend": 0.35,
+        "speaker": 0,
+        "speed": 1.2,
+        "pitch": 4.0,
+        "expressiveness": 0.667,
+        "rhythm": 0.8,
+        "robot_mix": 0.05,
+        "robot_freq": 50.0,
+        "volume": 1.5
+      },
+      "notes": "Great for a J.A.R.V.I.S type, butler",
+      "tags": [],
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
+    },
+    "The Deep Voice": {
+      "settings": {
+        "engine": "kokoro",
+        "voice": "im_nicola",
+        "blend_voice": "",
+        "blend": 0.0,
+        "speaker": 0,
+        "speed": 0.9,
+        "pitch": -6.0,
+        "expressiveness": 0.667,
+        "rhythm": 0.8,
+        "robot_mix": 0.0,
+        "robot_freq": 50.0,
+        "volume": 1.0
+      },
+      "notes": "Scary Russian Man Voice",
+      "tags": [],
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
+    },
+    "Deep Robot Voice": {
+      "settings": {
+        "engine": "beeps",
+        "voice": "chirpy",
+        "blend_voice": "",
+        "blend": 0.0,
+        "speaker": 0,
+        "speed": 0.5,
+        "pitch": -12.0,
+        "expressiveness": 1.46,
+        "rhythm": 1.5,
+        "robot_mix": 1.0,
+        "robot_freq": 300.0,
+        "beep_pitch": 300.0,
+        "crunch": 0.0,
+        "metallic": 0.0,
+        "tin_size": 15.0,
+        "volume": 1.0,
+        "pan": -0.2,
+        "width": 0.4,
+        "sweep": 1.0
+      },
+      "notes": "Voice for a big robot, deep and monotone",
+      "tags": [],
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
+    }
+  }
+}
